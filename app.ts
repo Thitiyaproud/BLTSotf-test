@@ -17,15 +17,14 @@ given:
 
 
 key features:
-- buy ticket: buy lotto by input number and amount of money
+- buy ticket: buy lotto by input number and amount of money and add to customer ticket
+- get ticker: get all ticket that customer buy
 - get random number: select digit that want to buy from 1-6 digits, how many numbers to buy, how much money for each number, and optional customer can select fixed number of digit (example: 5 digits, 10 number, 1000 baht and 4th digit is 5 and 5th digit is 6 then output must be random 10 number that last 2 digit is 56)
 - set draw: set payout randomly one munber and used for the current draw result
 - check win ticket: check winning prize by input all ticket that customer buy and return which number is win and prize
 */
 
 //Example data
-const customerTicket = [];
-
 const buyTicket = [
   {
     number: 1234,
@@ -37,6 +36,7 @@ const buyTicket = [
   },
 ];
 
+//Example data for buy random number
 const buyDigit = 4;
 const buyNumber = 10;
 const buyAmount = 1000;
@@ -51,3 +51,14 @@ const fixedDigit = [
   },
 ];
 // mean that customer want to buy 4 digits, 10 number, each 1000 baht,fxied third digit is 8 and fixed second digit is 6
+
+class LottoService {
+  customerTicket: any[]; //please change any to the correct type
+  drawResult: string | null;
+  constructor() {
+    this.customerTicket = []; // Stores all bought tickets
+    this.drawResult = null; // Stores the current draw result
+  }
+
+  //implement key feature
+}

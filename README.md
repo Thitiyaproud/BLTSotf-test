@@ -24,6 +24,20 @@ This Basic Lotto Service implements a simple lottery system where users can buy 
 - set draw: set payout randomly one munber and used for the current draw result
 - check win ticket: check winning prize by input all ticket that customer buy and return which number is win and prize
 
+## Get started
+
+1. Install dependencies
+
+   ```bash
+   pnpm install
+   ```
+
+2. Start the app
+
+   ```bash
+   pnpx run dev
+   ```
+
 # Score Criteria
 
 To evaluate the implementation of the Lotto Service, the following **score criteria** will be used. The total score is **100 points**.
