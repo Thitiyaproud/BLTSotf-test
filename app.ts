@@ -60,5 +60,24 @@ class LottoService {
     this.drawResult = null; // Stores the current draw result
   }
 
-  //implement key feature
+  //implement key features
+  buyTicket() {
+    //implement buy ticket
+  }
+
+  getTicket() {
+    //implement get ticket
+  }
+
+  getRandomNumber() {
+    //implement get random number
+  }
+
+  setDraw() {
+    //implement set draw
+  }
+
+  checkWinTicket() {
+    //implement check win ticket
+  }
 }
