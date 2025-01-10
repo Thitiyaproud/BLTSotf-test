@@ -53,31 +53,111 @@ const fixedDigit = [
 // mean that customer want to buy 4 digits, 10 number, each 1000 baht,fxied third digit is 8 and fixed second digit is 6
 
 class LottoService {
-  customerTicket: any[]; //please change any to the correct type
+  customerTicket: { number: string; amount: number }[]; //please change any to the correct type
   drawResult: string | null;
   constructor() {
     this.customerTicket = []; // Stores all bought tickets
     this.drawResult = null; // Stores the current draw result
   }
 
-  //implement key features
-  buyTicket() {
-    //implement buy ticket
+  buyTicket( number: string, amount: number ): void {
+    this.customerTicket.push({ number, amount });
   }
 
-  getTicket() {
-    //implement get ticket
+  getTicket() : { number: string; amount: number }[] {
+    return this.customerTicket;
   }
 
-  getRandomNumber() {
-    //implement get random number
+  getRandomNumber() : { number: string; amount: number }[] {
+
+    const digit = buyDigit;
+    const count = buyNumber;
+    const amount = buyAmount;
+  
+    const randomTickets: { number: string; amount: number }[] = [];
+
+    for (let i = 0; i < count; i++) {
+
+      // Generate random numbers
+      let randomNumber = Array(digit)
+        .fill(0)
+        .map(() => Math.floor(Math.random() * 10));
+  
+      // Modify the number according to the fixed positions
+      for (const fix of fixedDigit) {
+        randomNumber[fix.digit - 1] = fix.number;
+      }
+  
+      // Convert the array to a string and add to the results
+      randomTickets.push({ number: randomNumber.join(""), amount });
+    }
+  
+    this.customerTicket.push(...randomTickets);
+    return randomTickets;
   }
 
-  setDraw() {
-    //implement set draw
+  setDraw(): string {
+
+    // Generate a 6-digit random result
+    const result = Array(6)
+      .fill(0)
+      .map(() => Math.floor(Math.random() * 10))
+      .join("");
+
+    this.drawResult = result;
+    return result;
   }
 
-  checkWinTicket() {
-    //implement check win ticket
+  checkWinTicket(): { number: string; amount: number; prize: number }[] {
+    if (!this.drawResult) {
+      throw new Error("Draw result has not been set yet.");
+    }
+
+    const results: { number: string; amount: number; prize: number }[] = [];
+
+    for (const ticket of this.customerTicket) {
+      const matchedDigits = this.getMatchedDigits(ticket.number, this.drawResult);
+      if (matchedDigits > 0) {
+        const prize = ticket.amount * Math.pow(10, matchedDigits);
+        results.push({ number: ticket.number, amount: ticket.amount, prize });
+      }
+    }
+
+    return results;
+  }
+
+  // Helper function to calculate the number of matching digits
+  private getMatchedDigits(ticketNumber: string, result: string): number {
+    let matchCount = 0;
+    for (let i = 1; i <= ticketNumber.length; i++) {
+      if (
+        ticketNumber[ticketNumber.length - i] === result[result.length - i]
+      ) {
+        matchCount++;
+      } else {
+        break;
+      }
+    }
+    return matchCount;
   }
 }
+
+// Usage example
+const lottoService = new LottoService();
+
+// Buy specific numbers
+lottoService.buyTicket("1234", 1000);
+lottoService.buyTicket("58", 1000);
+console.log(lottoService.getTicket());
+
+// Generate random numbers
+const randomTickets = lottoService.getRandomNumber();
+console.log("Random Tickets:", randomTickets);
+
+// Set the draw result
+const drawResult = lottoService.setDraw();
+console.log("Draw Result:", drawResult);
+
+// Check for winning tickets
+const winnings = lottoService.checkWinTicket();
+console.log("Winnings:", winnings);
